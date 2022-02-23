@@ -1,23 +1,39 @@
 import Cocoa
 import SwiftUI
+import ServiceManagement
 
-@main
+@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var arrayHotKeys: [NSEvent.ModifierFlags] = [.function, .option, .control, .command]
-    var menuBar: NSStatusBar  = NSStatusBar()
-    var menuBarItem: NSStatusItem
-    var eventMonitor: Any?
+    private var arrayHotKeys: [NSEvent.ModifierFlags] = [.function, .option, .control, .command]
+    private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    private var eventMonitor: Any?
+    
+    private struct Constants {
+        // Launcher application bundle identifier
+        static let helperBundleID = "com.triton.layoutswitcherlauncher"
+        // Icon image sixe
+        static let imageSize = 18.0
+        // Key code for a space bar
+        static var spaceKeyCode: CGKeyCode = 0x31
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Init application menu and icon
         initMenu()
         
-        //if SettingsHelper.shared.isFirstRun {
-        let accessEnabled = isApplicationHasSecurityAccess()
-        print("Access: ", accessEnabled)
-        
-        // TODO: add a timer loop to check when access will be present
-        if accessEnabled {
+        // Check security access to init event monitor
+        if isApplicationHasSecurityAccess() {
             initEventMonitor()
+        } else {
+            let securityAlert = NSAlert()
+            
+            securityAlert.messageText = "Need security permissions"
+            securityAlert.informativeText = "Please provide security permissions for the application and restart it.\nThis is needed to be able globally monitor shortcuts to switch keyboard layout."
+            securityAlert.alertStyle = .critical
+            securityAlert.addButton(withTitle: "Exit")
+            if securityAlert.runModal() == .alertFirstButtonReturn {
+                exit(-1)
+            }
         }
     }
 
@@ -25,16 +41,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         deinitEventMonitor()
     }
     
-    override init() {
-        self.menuBarItem = menuBar.statusItem(withLength: NSStatusItem.squareLength)
-        super.init()
-    }
-    
     func initMenu() {
         // Define application's tray icon
         if let menuBarButton = menuBarItem.button {
             menuBarButton.image = #imageLiteral(resourceName: "MenuBarIcon")
-            menuBarButton.image?.size = NSSize(width: 18.0, height: 18.0)
+            menuBarButton.image?.size = NSSize(width: Constants.imageSize, height: Constants.imageSize)
             menuBarButton.image?.isTemplate = true
             menuBarButton.target = self
         }
@@ -51,19 +62,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Define main menu
         let statusBarMenu = NSMenu()
-        let hotkeysMenu = statusBarMenu.addItem(withTitle: "Layout hot keys", action: nil, keyEquivalent: "")
+        let hotkeysMenu = statusBarMenu.addItem(withTitle: "Layout shortcuts", action: nil, keyEquivalent: "")
         
         // Assign submenu to main menu
         hotkeysMenu.submenu = hotkeysSubmenu
         
         // Define autostart menu and get previos state
-        let autostartMenuItem = NSMenuItem(title: "Start with system", action: #selector(applicationAutostart), keyEquivalent: "a")
+        let autostartMenuItem = NSMenuItem(title: "Launch at login", action: #selector(applicationAutostart), keyEquivalent: "s")
         autostartMenuItem.state = SettingsHelper.shared.isAutostartEnable ? .on : .off
         statusBarMenu.addItem(autostartMenuItem)
         
         // Define other menu items
         statusBarMenu.addItem(NSMenuItem.separator())
-        statusBarMenu.addItem(withTitle: "About...", action: #selector(applicationQuit), keyEquivalent: "a")
+        statusBarMenu.addItem(withTitle: "About...", action: #selector(applicationAbout), keyEquivalent: "a")
         statusBarMenu.addItem(withTitle: "Quit", action: #selector(applicationQuit), keyEquivalent: "q")
         
         menuBarItem.menu = statusBarMenu
@@ -101,8 +112,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create a native system 'Control + Space' event
         // TODO: maybe better to read system's layout hotkeys instead of hardcoding
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
-        let spaceDown = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: true)
-        let spaceUp = CGEvent(keyboardEventSource: src, virtualKey: 0x31, keyDown: false)
+        let spaceDown = CGEvent(keyboardEventSource: src, virtualKey: Constants.spaceKeyCode, keyDown: true)
+        let spaceUp = CGEvent(keyboardEventSource: src, virtualKey: Constants.spaceKeyCode, keyDown: false)
         
         spaceDown?.flags = CGEventFlags.maskAlternate
         spaceUp?.flags = CGEventFlags.maskAlternate
@@ -131,15 +142,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func applicationAutostart(_ sender: NSMenuItem) {
+        // Update menu item checkbox
         sender.state = sender.state == .on ? .off : .on
-        SettingsHelper.shared.isAutostartEnable = sender.state == .on ? true : false
         
-        // TODO: implement adding to the user's autostart
+        // Get the new state based on the menu item checkbox
+        let newState = sender.state == .on ? true : false
+        
+        // Run helping application to enable autostart
+        let setupResult = SMLoginItemSetEnabled(Constants.helperBundleID as CFString, newState)
+        
+        // Save settings if action takes effect
+        if setupResult == true {
+            SettingsHelper.shared.isAutostartEnable = newState
+        } else {
+            let securityAlert = NSAlert()
+            
+            securityAlert.messageText = "Can't perform this operation"
+            securityAlert.informativeText = "Please check that application was copied to /Application directory and try again.\nYou can also add it manually Settings -> Users and Groups -> Login Items"
+            securityAlert.alertStyle = .warning
+            securityAlert.addButton(withTitle: "Ok")
+        }
     }
     
     @objc func applicationAbout() {
-        // TODO: upload to the github and add link to the README
-        print("applicationAbout")
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let aboutAlert = NSAlert()
+        
+        aboutAlert.messageText = "Layout Switcher v." + appVersion!
+        aboutAlert.informativeText = "LayoutSwitcher is open-source application that allows you to change keyboard layout using shortcuts that are not alloved by MacOS: Fn + Shift ⇧, Option ⌥ + Shift ⇧, Command ⌘ + Shift ⇧ or Control ⌃ + Shift ⇧. \nIn some sence it an alternative for the Punto Switcher or Karabiner if you are using it for similar purpose, because both are kind of overkill for this."
+        aboutAlert.alertStyle = .informational
+        aboutAlert.addButton(withTitle: "Ok")
     }
 
     @objc func applicationQuit() {

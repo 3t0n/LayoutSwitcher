@@ -8,26 +8,50 @@
 
 /* Begin PBXBuildFile section */
 		48B8ED3E27C4FF5F0052E61A /* SettingsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8ED3D27C4FF5F0052E61A /* SettingsHelper.swift */; };
-		825E597026A9BD1600B954AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825E596F26A9BD1600B954AC /* AppDelegate.swift */; };
-		825E597226A9BD1600B954AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825E597126A9BD1600B954AC /* ContentView.swift */; };
+		48B8ED4727C6591D0052E61A /* LayoutSwitcherLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8ED4627C6591D0052E61A /* LayoutSwitcherLauncher.swift */; };
+		48B8ED5B27C6625F0052E61A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48B8ED5927C6625F0052E61A /* Main.storyboard */; };
+		48B8ED5D27C662E80052E61A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8ED5C27C662E80052E61A /* AppDelegate.swift */; };
+		48B8ED5F27C6790D0052E61A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B8ED5E27C6790D0052E61A /* main.swift */; };
+		48B8ED6127C679C20052E61A /* LayoutSwitcherLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 48B8ED4427C6591D0052E61A /* LayoutSwitcherLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		825E597426A9BD1700B954AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 825E597326A9BD1700B954AC /* Assets.xcassets */; };
-		825E597726A9BD1700B954AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 825E597626A9BD1700B954AC /* Preview Assets.xcassets */; };
-		825E597A26A9BD1700B954AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 825E597826A9BD1700B954AC /* Main.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		48B8ED6027C679990052E61A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				48B8ED6127C679C20052E61A /* LayoutSwitcherLauncher.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		48B8ED3D27C4FF5F0052E61A /* SettingsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHelper.swift; sourceTree = "<group>"; };
+		48B8ED4427C6591D0052E61A /* LayoutSwitcherLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayoutSwitcherLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		48B8ED4627C6591D0052E61A /* LayoutSwitcherLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutSwitcherLauncher.swift; sourceTree = "<group>"; };
+		48B8ED4F27C6591E0052E61A /* LayoutSwitcherLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LayoutSwitcherLauncher.entitlements; sourceTree = "<group>"; };
+		48B8ED5327C659F30052E61A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		48B8ED5A27C6625F0052E61A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		48B8ED5C27C662E80052E61A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		48B8ED5E27C6790D0052E61A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		825E596C26A9BD1600B954AC /* LayoutSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayoutSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		825E596F26A9BD1600B954AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		825E597126A9BD1600B954AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		825E597326A9BD1700B954AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		825E597626A9BD1700B954AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		825E597926A9BD1700B954AC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		825E597B26A9BD1700B954AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		825E597C26A9BD1700B954AC /* LayoutSwitcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LayoutSwitcher.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		48B8ED4127C6591D0052E61A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		825E596926A9BD1600B954AC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,9 +62,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		48B8ED4527C6591D0052E61A /* LayoutSwitcherLauncher */ = {
+			isa = PBXGroup;
+			children = (
+				48B8ED5327C659F30052E61A /* Info.plist */,
+				48B8ED4627C6591D0052E61A /* LayoutSwitcherLauncher.swift */,
+				48B8ED4F27C6591E0052E61A /* LayoutSwitcherLauncher.entitlements */,
+				48B8ED5E27C6790D0052E61A /* main.swift */,
+			);
+			path = LayoutSwitcherLauncher;
+			sourceTree = "<group>";
+		};
 		825E596326A9BD1600B954AC = {
 			isa = PBXGroup;
 			children = (
+				48B8ED4527C6591D0052E61A /* LayoutSwitcherLauncher */,
 				825E596E26A9BD1600B954AC /* LayoutSwitcher */,
 				825E596D26A9BD1600B954AC /* Products */,
 			);
@@ -50,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				825E596C26A9BD1600B954AC /* LayoutSwitcher.app */,
+				48B8ED4427C6591D0052E61A /* LayoutSwitcherLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,29 +94,36 @@
 		825E596E26A9BD1600B954AC /* LayoutSwitcher */ = {
 			isa = PBXGroup;
 			children = (
-				825E596F26A9BD1600B954AC /* AppDelegate.swift */,
-				825E597126A9BD1600B954AC /* ContentView.swift */,
+				48B8ED5C27C662E80052E61A /* AppDelegate.swift */,
 				48B8ED3D27C4FF5F0052E61A /* SettingsHelper.swift */,
+				48B8ED5927C6625F0052E61A /* Main.storyboard */,
 				825E597326A9BD1700B954AC /* Assets.xcassets */,
-				825E597826A9BD1700B954AC /* Main.storyboard */,
 				825E597B26A9BD1700B954AC /* Info.plist */,
 				825E597C26A9BD1700B954AC /* LayoutSwitcher.entitlements */,
-				825E597526A9BD1700B954AC /* Preview Content */,
 			);
 			path = LayoutSwitcher;
-			sourceTree = "<group>";
-		};
-		825E597526A9BD1700B954AC /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				825E597626A9BD1700B954AC /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		48B8ED4327C6591D0052E61A /* LayoutSwitcherLauncher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48B8ED5027C6591E0052E61A /* Build configuration list for PBXNativeTarget "LayoutSwitcherLauncher" */;
+			buildPhases = (
+				48B8ED4027C6591D0052E61A /* Sources */,
+				48B8ED4127C6591D0052E61A /* Frameworks */,
+				48B8ED4227C6591D0052E61A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LayoutSwitcherLauncher;
+			productName = LayoutSwitcherLauncher;
+			productReference = 48B8ED4427C6591D0052E61A /* LayoutSwitcherLauncher.app */;
+			productType = "com.apple.product-type.application";
+		};
 		825E596B26A9BD1600B954AC /* LayoutSwitcher */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 825E597F26A9BD1700B954AC /* Build configuration list for PBXNativeTarget "LayoutSwitcher" */;
@@ -87,6 +131,7 @@
 				825E596826A9BD1600B954AC /* Sources */,
 				825E596926A9BD1600B954AC /* Frameworks */,
 				825E596A26A9BD1600B954AC /* Resources */,
+				48B8ED6027C679990052E61A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -103,9 +148,12 @@
 		825E596426A9BD1600B954AC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					48B8ED4327C6591D0052E61A = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					825E596B26A9BD1600B954AC = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
@@ -125,41 +173,56 @@
 			projectRoot = "";
 			targets = (
 				825E596B26A9BD1600B954AC /* LayoutSwitcher */,
+				48B8ED4327C6591D0052E61A /* LayoutSwitcherLauncher */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		48B8ED4227C6591D0052E61A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		825E596A26A9BD1600B954AC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825E597A26A9BD1700B954AC /* Main.storyboard in Resources */,
-				825E597726A9BD1700B954AC /* Preview Assets.xcassets in Resources */,
 				825E597426A9BD1700B954AC /* Assets.xcassets in Resources */,
+				48B8ED5B27C6625F0052E61A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		48B8ED4027C6591D0052E61A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B8ED5F27C6790D0052E61A /* main.swift in Sources */,
+				48B8ED4727C6591D0052E61A /* LayoutSwitcherLauncher.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		825E596826A9BD1600B954AC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825E597226A9BD1600B954AC /* ContentView.swift in Sources */,
+				48B8ED5D27C662E80052E61A /* AppDelegate.swift in Sources */,
 				48B8ED3E27C4FF5F0052E61A /* SettingsHelper.swift in Sources */,
-				825E597026A9BD1600B954AC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		825E597826A9BD1700B954AC /* Main.storyboard */ = {
+		48B8ED5927C6625F0052E61A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				825E597926A9BD1700B954AC /* Base */,
+				48B8ED5A27C6625F0052E61A /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -167,6 +230,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		48B8ED5127C6591E0052E61A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = LayoutSwitcherLauncher/LayoutSwitcherLauncher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 864YL5794R;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LayoutSwitcherLauncher/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.triton.layoutswitcherlauncher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		48B8ED5227C6591E0052E61A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = LayoutSwitcherLauncher/LayoutSwitcherLauncher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 864YL5794R;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LayoutSwitcherLauncher/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.triton.layoutswitcherlauncher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		825E597D26A9BD1700B954AC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -289,10 +414,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LayoutSwitcher/LayoutSwitcher.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"LayoutSwitcher/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 864YL5794R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -316,10 +442,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LayoutSwitcher/LayoutSwitcher.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"LayoutSwitcher/Preview Content\"";
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 864YL5794R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -339,6 +466,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		48B8ED5027C6591E0052E61A /* Build configuration list for PBXNativeTarget "LayoutSwitcherLauncher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48B8ED5127C6591E0052E61A /* Debug */,
+				48B8ED5227C6591E0052E61A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		825E596726A9BD1600B954AC /* Build configuration list for PBXProject "LayoutSwitcher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
