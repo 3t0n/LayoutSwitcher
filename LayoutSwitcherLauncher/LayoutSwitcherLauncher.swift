@@ -17,7 +17,7 @@ class LayoutSwitcherLauncher: NSObject, NSApplicationDelegate {
                 for _ in 1...4 {
                     path = path.deletingLastPathComponent as NSString
                 }
-                let applicationPathString = path as String
+                let applicationPathString = "file://\(path as String)"
                 guard let pathURL = URL(string: applicationPathString) else { return }
                 NSWorkspace.shared.openApplication(at: pathURL,
                                                    configuration: NSWorkspace.OpenConfiguration(),

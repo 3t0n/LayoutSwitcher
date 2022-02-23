@@ -4,20 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>LayoutSwitcher.xcscheme_^#shared#^_</key>
+		<key>LayoutSwitcher (debug).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>LayoutSwitcherLauncher.xcscheme_^#shared#^_</key>
+		<key>LayoutSwitcher (release).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>LayoutSwitcherLauncher (debug).xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>MyMenuBar.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>825E596B26A9BD1600B954AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

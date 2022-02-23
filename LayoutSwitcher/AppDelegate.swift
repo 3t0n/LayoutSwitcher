@@ -30,8 +30,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             securityAlert.messageText = "Need security permissions"
             securityAlert.informativeText = "Please provide security permissions for the application and restart it.\nThis is needed to be able globally monitor shortcuts to switch keyboard layout."
             securityAlert.alertStyle = .critical
+            securityAlert.addButton(withTitle: "Settings")
             securityAlert.addButton(withTitle: "Exit")
+            
             if securityAlert.runModal() == .alertFirstButtonReturn {
+                openPrivacySettings()
+                exit(-1)
+            } else {
                 exit(-1)
             }
         }
@@ -106,6 +111,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func isApplicationHasSecurityAccess() -> Bool {
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : true]
         return AXIsProcessTrustedWithOptions(options)
+    }
+    
+    func openPrivacySettings() {
+        URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
+            .flatMap { _ = NSWorkspace.shared.open($0) }
     }
     
     func sendSystemDefaultChangeLayoutHotkey() {
