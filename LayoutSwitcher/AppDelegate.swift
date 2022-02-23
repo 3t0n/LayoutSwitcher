@@ -35,10 +35,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             if securityAlert.runModal() == .alertFirstButtonReturn {
                 openPrivacySettings()
-                exit(-1)
-            } else {
-                exit(-1)
             }
+            
+            // Shutdown the application anyway
+            exit(-1)
         }
     }
 
@@ -93,7 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
             if (event.modifierFlags.contains(.shift) &&
                 event.modifierFlags.contains(secondModifierFlag)) {
-                    self.sendSystemDefaultChangeLayoutHotkey()
+                    self.sendDefaultChangeLayoutHotkey()
             }
         }
     }
@@ -118,7 +118,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .flatMap { _ = NSWorkspace.shared.open($0) }
     }
     
-    func sendSystemDefaultChangeLayoutHotkey() {
+    // TODO: To add some more combinations for different use-cases
+    func sendDefaultChangeLayoutHotkey() {
         // Create a native system 'Control + Space' event
         // TODO: maybe better to read system's layout hotkeys instead of hardcoding
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
@@ -182,6 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         aboutAlert.informativeText = "LayoutSwitcher is open-source application that allows you to change keyboard layout using shortcuts that are not alloved by MacOS: Fn + Shift ⇧, Option ⌥ + Shift ⇧, Command ⌘ + Shift ⇧ or Control ⌃ + Shift ⇧. \nIn some sence it an alternative for the Punto Switcher or Karabiner if you are using it for similar purpose, because both are kind of overkill for this."
         aboutAlert.alertStyle = .informational
         aboutAlert.addButton(withTitle: "Ok")
+        aboutAlert.runModal()
     }
 
     @objc func applicationQuit() {
