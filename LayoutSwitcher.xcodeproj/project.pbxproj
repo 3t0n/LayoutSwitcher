@@ -31,6 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		19866577283D841C00C09746 /* LayoutSwitcherRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LayoutSwitcherRelease.entitlements; sourceTree = "<group>"; };
 		19C0A7D5283D17DB00F6458E /* HotkeysHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeysHelper.swift; sourceTree = "<group>"; };
 		48B8ED3D27C4FF5F0052E61A /* SettingsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsHelper.swift; sourceTree = "<group>"; };
 		48B8ED4427C6591D0052E61A /* LayoutSwitcherLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayoutSwitcherLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +97,7 @@
 		825E596E26A9BD1600B954AC /* LayoutSwitcher */ = {
 			isa = PBXGroup;
 			children = (
+				19866577283D841C00C09746 /* LayoutSwitcherRelease.entitlements */,
 				48B8ED5C27C662E80052E61A /* AppDelegate.swift */,
 				48B8ED3D27C4FF5F0052E61A /* SettingsHelper.swift */,
 				48B8ED5927C6625F0052E61A /* Main.storyboard */,
@@ -279,7 +281,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 864YL5794R;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -438,7 +440,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.triton.layoutswitcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -453,13 +455,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = LayoutSwitcher/LayoutSwitcher.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = LayoutSwitcher/LayoutSwitcherRelease.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = KCW5Y524DQ;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LayoutSwitcher/Info.plist;
@@ -468,7 +470,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.triton.layoutswitcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
