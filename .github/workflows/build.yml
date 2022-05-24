@@ -7,11 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: macos-latest
-
+  build-bigsur:
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
+    - name: Build ( macOS 12.0 Monterey)
+      run: xcodebuild clean build -scheme LayoutSwitcher -destination 'platform=macOS,arch=x86_64,id=4666018E-420F-C1B5-9525-B145CECA79EB'
+    - name: Build ( mac Catalyst 12.0)
+      run: xcodebuild test -scheme LayoutSwitcher -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst,id=4666018E-420F-C1B5-9525-B145CECA79EB'
+    - name: Build ( M1)
+      run: xcodebuild clean build  -scheme LayoutSwitcher -destination 'generic/platform=iOS`
+      
+  build-catalina: 
+    runs-on: macos-10.15
+    steps: 
+    - name: Checkout the code
+      uses: actions/checkout@v2
+    - name: Switch to xcode 12.0.1
+      run: sudo xcode-select -s /Applications/Xcode12.0.1.app
+    - name: Show eligible build destinations for LayoutSwitcher
+      run: xcodebuild -showdestinations -scheme LayoutSwitcher
