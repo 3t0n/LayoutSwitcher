@@ -20,13 +20,13 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		48B8ED6027C679990052E61A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
 				48B8ED6127C679C20052E61A /* LayoutSwitcherLauncher.app in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -152,7 +152,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					48B8ED4327C6591D0052E61A = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -241,6 +241,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LayoutSwitcherLauncher/LayoutSwitcherLauncher.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -273,6 +274,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LayoutSwitcherLauncher/LayoutSwitcherLauncher.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -427,7 +429,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 864YL5794R;
+				DEVELOPMENT_TEAM = KCW5Y524DQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LayoutSwitcher/Info.plist;
@@ -457,7 +459,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 864YL5794R;
+				DEVELOPMENT_TEAM = KCW5Y524DQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = LayoutSwitcher/Info.plist;
