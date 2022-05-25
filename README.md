@@ -1,5 +1,12 @@
+StandWithUkraine:
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+
+
 # About
 LayoutSwitcher is open-source application that allows you to change keyboard layout using shortcuts that are not alloved by MacOS: Fn + Shift ⇧, Option ⌥ + Shift ⇧, Command ⌘ + Shift ⇧ or Control ⌃ + Shift ⇧. In some sence it an alternative for the Punto Switcher or Karabiner if you are using it for similar purpose, because both are kind of overkill for this.
+
+
+![LayoutSwitcher](LayoutSwitcher.png)
 
 # Installation
 1. Download Intel or M1 image by the link below 
@@ -10,4 +17,8 @@ LayoutSwitcher is open-source application that allows you to change keyboard lay
 
 # Downloads
 * GitHub: https://github.com/3t0n/LayoutSwitcher/releases/
+
+
+
+
 

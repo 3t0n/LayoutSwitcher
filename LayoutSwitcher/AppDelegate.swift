@@ -4,9 +4,15 @@ import ServiceManagement
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private var arrayHotKeys: [NSEvent.ModifierFlags] = [.function, .option, .control, .command]
+
+    private var arrayLangHotKeys: [NSEvent.ModifierFlags] = [.function, .option, .control, .command]
+
     private var menuBarItem: NSStatusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    private var eventMonitor: Any?
+    private var langEventMonitor: Any?
+    private var editEventMonitor: Any?
+    
+    private var enabledEditKeysValues: [String] = []
+    private var editKeysState: EditHotKeys = []
     
     private struct Constants {
         // Launcher application bundle identifier
@@ -23,7 +29,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Check security access to init event monitor
         if isApplicationHasSecurityAccess() {
-            initEventMonitor()
+            //initLanSwitchEventMonitor()
+            initWinEditEventMonitor()
         } else {
             let securityAlert = NSAlert()
             
@@ -43,7 +50,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        deinitEventMonitor()
+        deinitLangEventMonitor()
+        deinitEditEventMonitor()
+    }
+    
+    func updateEditMenuState(editkeysMenu: NSMenuItem){
+        let submenu = editkeysMenu.submenu
+        var hotkeysState: NSControl.StateValue = .off
+        submenu?.items.forEach {
+            if( $0.isSeparatorItem || hotkeysState == .mixed ){
+                return
+            }
+                
+            switch $0.state{
+            case .on:
+                hotkeysState = .on
+            case .off:
+                if(hotkeysState == .on ){
+                    hotkeysState = .mixed
+                }
+            default:
+                return
+            }
+        }
+        
+        editkeysMenu.state = hotkeysState
+    }
+    
+    func newEditMenuItem(_ title: String, key: String, tag:EditHotKeys) -> NSMenuItem {
+        let menuItem = NSMenuItem()
+        menuItem.title = title
+        menuItem.action = #selector(applicationSetWinEditKey)
+        menuItem.keyEquivalent = key
+        menuItem.tag = tag.rawValue
+        menuItem.state = editKeysState.contains(tag) ? .on : .off
+        return menuItem
     }
     
     func initMenu() {
@@ -72,10 +113,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Assign submenu to main menu
         hotkeysMenu.submenu = hotkeysSubmenu
         
+        // Define edit hot keys submenu
+        let editHotkeysSubmenu = NSMenu.init()
+        
+        editKeysState = EditHotKeys(rawValue: SettingsHelper.shared.winEditKeys)
+
+        editHotkeysSubmenu.addItem(newEditMenuItem("Undo/Redo: Control  ⌃ + Z | Y",key: "z",tag: EditHotKeys.UndRedo))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Copy/Paste: Control  ⌃ + X | C | V",key: "c",tag: EditHotKeys.CopyPaste))
+        editHotkeysSubmenu.addItem(NSMenuItem.separator())
+        editHotkeysSubmenu.addItem(newEditMenuItem("Find: Control ^ + F",key: "f",tag: EditHotKeys.Find))
+        editHotkeysSubmenu.addItem(newEditMenuItem("All: Control  ⌃ + A",key: "l",tag: EditHotKeys.All))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Open/Save: Control ⌃ + O | S",key: "o",tag: EditHotKeys.OpenSave))
+        editHotkeysSubmenu.addItem(NSMenuItem.separator())
+        editHotkeysSubmenu.addItem(newEditMenuItem("Print: Control ⌃ + P",key: "p",tag: EditHotKeys.Print))
+    
+        //editHotkeysSubmenu.addItem(withTitle: "Close: ⌥F4",  action: #selector(applicationSetWinEditKey), keyEquivalent: "q")
+        
+        // Define main menu
+        let editkeysMenu = statusBarMenu.addItem(withTitle: "Windows Edit hotkeys", action: nil, keyEquivalent: "")
+        // Assign submenu to main menu
+        
+        editkeysMenu.submenu = editHotkeysSubmenu
+        updateEditMenuState(editkeysMenu: editkeysMenu)
+        
         // Define autostart menu and get previos state
         let autostartMenuItem = NSMenuItem(title: "Launch at login", action: #selector(applicationAutostart), keyEquivalent: "s")
         autostartMenuItem.state = SettingsHelper.shared.isAutostartEnable ? .on : .off
         statusBarMenu.addItem(autostartMenuItem)
+        
         
         // Define other menu items
         statusBarMenu.addItem(NSMenuItem.separator())
@@ -85,12 +150,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuBarItem.menu = statusBarMenu
     }
     
-    func initEventMonitor() {
+    func initLanSwitchEventMonitor() {
         // Get second modifier key, according to menu
-        let secondModifierFlag = arrayHotKeys[SettingsHelper.shared.checkedHotKeyIndex]
+        let secondModifierFlag = arrayLangHotKeys[SettingsHelper.shared.checkedHotKeyIndex]
         
         // Enable key event monitor
-        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
+        langEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
             if (event.modifierFlags.contains(.shift) &&
                 event.modifierFlags.contains(secondModifierFlag)) {
                     self.sendDefaultChangeLayoutHotkey()
@@ -98,14 +163,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func deinitEventMonitor() {
-        guard eventMonitor != nil else {return}
-        NSEvent.removeMonitor(eventMonitor!)
+    func initWinEditEventMonitor() {
+        
+        for hotkeyType in editKeysState.elements() {
+            enabledEditKeysValues.append(contentsOf: editHotkeysValues[hotkeyType.rawValue] ?? [])
+        }
+        
+        // Enable key event monitor
+        editEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
+            
+            if (event.modifierFlags.contains(.control)){
+                let char = event.charactersIgnoringModifiers
+                let charCode = event.keyCode;
+                if(self.enabledEditKeysValues.contains(char ?? "/")){
+                    self.sendDefaultEditHotkey(char ?? "/", code:charCode)
+                }
+            }
+        }
     }
     
-    func updateEventMonitor() {
-        deinitEventMonitor()
-        initEventMonitor()
+    func deinitLangEventMonitor() {
+        guard langEventMonitor != nil else {return}
+        NSEvent.removeMonitor(langEventMonitor!)
+    }
+    
+    func deinitEditEventMonitor() {
+        guard editEventMonitor != nil else {return}
+        NSEvent.removeMonitor(editEventMonitor!)
+    }
+    
+    func updateLangEventMonitor() {
+        deinitLangEventMonitor()
+        initLanSwitchEventMonitor()
+    }
+    
+    func updateEditEventMonitor() {
+        deinitEditEventMonitor()
+        initWinEditEventMonitor()
     }
     
     func isApplicationHasSecurityAccess() -> Bool {
@@ -136,19 +230,78 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         spaceUp?.post(tap: loc)
     }
     
+    func sendDefaultEditHotkey(_ key:String, code:UInt16) {
+        //print("\(String(describing: key)) is pressed")
+        
+               
+        // Create a native system 'Control + Space' event
+        // TODO: maybe better to read system's layout hotkeys instead of hardcoding
+        let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
+        let keyDown = CGEvent(keyboardEventSource: src, virtualKey: code, keyDown: true)
+        let keyUp = CGEvent(keyboardEventSource: src, virtualKey: code, keyDown: false)
+        
+        keyDown?.flags = CGEventFlags.maskAlternate
+        keyUp?.flags = CGEventFlags.maskAlternate
+        keyDown?.flags = CGEventFlags.maskCommand
+        keyUp?.flags = CGEventFlags.maskCommand
+
+        let loc = CGEventTapLocation.cghidEventTap
+        keyDown?.post(tap: loc)
+        keyUp?.post(tap: loc)
+    }
+    
     @objc func applicationChangeHotkey(_ sender: NSMenuItem) {
         // Update the checked state of menu item and save it
         sender.state = sender.state == .on ? .off : .on
         SettingsHelper.shared.checkedHotKeyIndex = sender.menu!.index(of: sender)
         
         // Restart eventMonitor with new hot key
-        self.updateEventMonitor()
+        self.updateLangEventMonitor()
         
         // Set previosly checked item to unchecked
         sender.menu?.items.forEach {
             if ($0 != sender && $0.state == .on) {
                 $0.state = sender.state == .on ? .off : .on
             }
+        }        
+    }
+    
+    @objc func applicationSetWinEditKey(_ sender: NSMenuItem) {
+        // Update the checked state of menu item and save it
+        sender.state = sender.state == .on ? .off : .on
+        
+        var tagsValue = 0
+        
+        sender.menu?.items.forEach {
+            if ($0.state == .on) {
+                tagsValue += $0.tag
+            }
+        }
+        
+        SettingsHelper.shared.winEditKeys = tagsValue
+        
+        editKeysState = EditHotKeys(rawValue: tagsValue)
+        
+        // Restart eventMonitor with new hot key
+        self.updateEditMenuState(editkeysMenu: sender.parent!)
+        self.updateEditEventMonitor()
+
+    }
+    
+    @objc func applicationDisable(_ sender: NSMenuItem) {
+        // Update menu item checkbox
+        sender.state = sender.state == .on ? .off : .on
+        
+        // Get the new state based on the menu item checkbox
+        let disabled = sender.state == .on ? true : false
+        
+        if (disabled){
+            deinitLangEventMonitor()
+            deinitEditEventMonitor()
+        }
+        else{
+            updateLangEventMonitor()
+            updateEditEventMonitor()
         }
     }
     

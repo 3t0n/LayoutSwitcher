@@ -1,0 +1,35 @@
+name: Build Package
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+    - '*'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-bigsur:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build ( macOS x64 12.0 Monterey)
+      run: xcodebuild clean build -scheme LayoutSwitcherPack -destination 'platform=macOS,arch=x86_64,id=4203018E-580F-C1B5-9525-B745CECA79EB' -derivedDataPath ${{ github.workspace }}/build 
+    # Github doesn't want to perform M1 building
+    #- name: Build ( macOS M1 12.0 Monterey)
+    #  run: xcodebuild clean build  -scheme LayoutSwitcherPack -destination 'generic/platform=iOS'
+    - name: List files in the repository
+      run: |
+        ls ${{ github.workspace }}
+    - name: Archive Release
+      uses: thedoctor0/zip-release@main
+      with:
+        path: '.'
+        type: 'zip'
+        filename: 'LayoutSwitcher.zip'
+        exclusions: '*.git* .editorconfig' 
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "LayoutSwitcher.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
