@@ -118,19 +118,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         editKeysState = EditHotKeys(rawValue: SettingsHelper.shared.winEditKeys)
 
-        editHotkeysSubmenu.addItem(newEditMenuItem("Undo/Redo: Control  ⌃ + Z | Y",key: "z",tag: EditHotKeys.UndRedo))
-        editHotkeysSubmenu.addItem(newEditMenuItem("Copy/Paste: Control  ⌃ + X | C | V",key: "c",tag: EditHotKeys.CopyPaste))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Undo/Redo: Control ⌃ + Z | Y", key: "z",tag: EditHotKeys.UndRedo))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Copy/Paste: Control ⌃ + X | C | V", key: "c",tag: EditHotKeys.CopyPaste))
         editHotkeysSubmenu.addItem(NSMenuItem.separator())
-        editHotkeysSubmenu.addItem(newEditMenuItem("Find: Control ^ + F",key: "f",tag: EditHotKeys.Find))
-        editHotkeysSubmenu.addItem(newEditMenuItem("All: Control  ⌃ + A",key: "l",tag: EditHotKeys.All))
-        editHotkeysSubmenu.addItem(newEditMenuItem("Open/Save: Control ⌃ + O | S",key: "o",tag: EditHotKeys.OpenSave))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Find: Control ^ + F",key: "f", tag: EditHotKeys.Find))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Select all: Control ⌃ + A",key: "l", tag: EditHotKeys.All))
+        editHotkeysSubmenu.addItem(newEditMenuItem("Open/Save: Control ⌃ + O | S", key: "o",tag: EditHotKeys.OpenSave))
         editHotkeysSubmenu.addItem(NSMenuItem.separator())
         editHotkeysSubmenu.addItem(newEditMenuItem("Print: Control ⌃ + P",key: "p",tag: EditHotKeys.Print))
     
         //editHotkeysSubmenu.addItem(withTitle: "Close: ⌥F4",  action: #selector(applicationSetWinEditKey), keyEquivalent: "q")
         
         // Define main menu
-        let editkeysMenu = statusBarMenu.addItem(withTitle: "Windows Edit hotkeys", action: nil, keyEquivalent: "")
+        let editkeysMenu = statusBarMenu.addItem(withTitle: "Edit shortcuts", action: nil, keyEquivalent: "")
         // Assign submenu to main menu
         
         editkeysMenu.submenu = editHotkeysSubmenu
