@@ -23,13 +23,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         static var spaceKeyCode: CGKeyCode = 0x31
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    public func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Init application menu and icon
         initMenu()
         
         // Check security access to init event monitor
         if isApplicationHasSecurityAccess() {
-            //initLanSwitchEventMonitor()
+            initLanSwitchEventMonitor()
             initWinEditEventMonitor()
         } else {
             let securityAlert = NSAlert()
@@ -49,12 +49,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
+    public func applicationWillTerminate(_ aNotification: Notification) {
         deinitLangEventMonitor()
         deinitEditEventMonitor()
     }
     
-    func updateEditMenuState(editkeysMenu: NSMenuItem){
+    private func updateEditMenuState(editkeysMenu: NSMenuItem){
         let submenu = editkeysMenu.submenu
         var hotkeysState: NSControl.StateValue = .off
         submenu?.items.forEach {
@@ -77,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         editkeysMenu.state = hotkeysState
     }
     
-    func newEditMenuItem(_ title: String, key: String, tag:EditHotKeys) -> NSMenuItem {
+    private func newEditMenuItem(_ title: String, key: String, tag:EditHotKeys) -> NSMenuItem {
         let menuItem = NSMenuItem()
         menuItem.title = title
         menuItem.action = #selector(applicationSetWinEditKey)
@@ -87,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return menuItem
     }
     
-    func initMenu() {
+    private func initMenu() {
         // Define application's tray icon
         if let menuBarButton = menuBarItem.button {
             menuBarButton.image = #imageLiteral(resourceName: "MenuBarIcon")
@@ -131,8 +131,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Define main menu
         let editkeysMenu = statusBarMenu.addItem(withTitle: "Edit shortcuts", action: nil, keyEquivalent: "")
-        // Assign submenu to main menu
         
+        // Assign submenu to main menu
         editkeysMenu.submenu = editHotkeysSubmenu
         updateEditMenuState(editkeysMenu: editkeysMenu)
         
@@ -150,7 +150,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuBarItem.menu = statusBarMenu
     }
     
-    func initLanSwitchEventMonitor() {
+    private func initLanSwitchEventMonitor() {
         // Get second modifier key, according to menu
         let secondModifierFlag = arrayLangHotKeys[SettingsHelper.shared.checkedHotKeyIndex]
         
@@ -163,8 +163,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func initWinEditEventMonitor() {
-        
+    private func initWinEditEventMonitor() {
         for hotkeyType in editKeysState.elements() {
             enabledEditKeysValues.append(contentsOf: editHotkeysValues[hotkeyType.rawValue] ?? [])
         }
@@ -182,38 +181,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func deinitLangEventMonitor() {
+    private func deinitLangEventMonitor() {
         guard langEventMonitor != nil else {return}
         NSEvent.removeMonitor(langEventMonitor!)
     }
     
-    func deinitEditEventMonitor() {
+    private func deinitEditEventMonitor() {
         guard editEventMonitor != nil else {return}
         NSEvent.removeMonitor(editEventMonitor!)
     }
     
-    func updateLangEventMonitor() {
+    private func updateLangEventMonitor() {
         deinitLangEventMonitor()
         initLanSwitchEventMonitor()
     }
     
-    func updateEditEventMonitor() {
+    private func updateEditEventMonitor() {
         deinitEditEventMonitor()
         initWinEditEventMonitor()
     }
     
-    func isApplicationHasSecurityAccess() -> Bool {
+    private func isApplicationHasSecurityAccess() -> Bool {
         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : true]
         return AXIsProcessTrustedWithOptions(options)
     }
     
-    func openPrivacySettings() {
+    private func openPrivacySettings() {
         URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
             .flatMap { _ = NSWorkspace.shared.open($0) }
     }
     
     // TODO: To add some more combinations for different use-cases
-    func sendDefaultChangeLayoutHotkey() {
+    private func sendDefaultChangeLayoutHotkey() {
         // Create a native system 'Control + Space' event
         // TODO: maybe better to read system's layout hotkeys instead of hardcoding
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
@@ -230,10 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         spaceUp?.post(tap: loc)
     }
     
-    func sendDefaultEditHotkey(_ key:String, code:UInt16) {
-        //print("\(String(describing: key)) is pressed")
-        
-               
+    private func sendDefaultEditHotkey(_ key:String, code:UInt16) {
         // Create a native system 'Control + Space' event
         // TODO: maybe better to read system's layout hotkeys instead of hardcoding
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
@@ -250,7 +246,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         keyUp?.post(tap: loc)
     }
     
-    @objc func applicationChangeHotkey(_ sender: NSMenuItem) {
+    @objc private func applicationChangeHotkey(_ sender: NSMenuItem) {
         // Update the checked state of menu item and save it
         sender.state = sender.state == .on ? .off : .on
         SettingsHelper.shared.checkedHotKeyIndex = sender.menu!.index(of: sender)
@@ -266,7 +262,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }        
     }
     
-    @objc func applicationSetWinEditKey(_ sender: NSMenuItem) {
+    @objc private func applicationSetWinEditKey(_ sender: NSMenuItem) {
         // Update the checked state of menu item and save it
         sender.state = sender.state == .on ? .off : .on
         
@@ -288,7 +284,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     }
     
-    @objc func applicationDisable(_ sender: NSMenuItem) {
+    @objc private func applicationDisable(_ sender: NSMenuItem) {
         // Update menu item checkbox
         sender.state = sender.state == .on ? .off : .on
         
@@ -305,15 +301,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @objc func applicationAutostart(_ sender: NSMenuItem) {
+    private func launchAtLogin(_ newState: Bool) -> Bool {
+        var result = false
+        
+        if #available(macOS 13.0, *) {
+                if newState == true {
+                    try? SMAppService.mainApp.register()
+                } else {
+                    try? SMAppService.mainApp.unregister()
+                }
+            
+                // FIXME: temporary hardcoded, get the status above
+                result = true
+        } else {
+            result = SMLoginItemSetEnabled(Constants.helperBundleID as CFString, newState)
+        }
+
+        return result
+    }
+    
+    @objc private func applicationAutostart(_ sender: NSMenuItem) {
         // Update menu item checkbox
         sender.state = sender.state == .on ? .off : .on
         
         // Get the new state based on the menu item checkbox
         let newState = sender.state == .on ? true : false
-        
+
         // Run helping application to enable autostart
-        let setupResult = SMLoginItemSetEnabled(Constants.helperBundleID as CFString, newState)
+        let setupResult = launchAtLogin(newState)
         
         // Save settings if action takes effect
         if setupResult == true {
@@ -328,7 +343,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @objc func applicationAbout() {
+    @objc private func applicationAbout() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         let aboutAlert = NSAlert()
         
@@ -339,7 +354,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         aboutAlert.runModal()
     }
 
-    @objc func applicationQuit() {
+    @objc private func applicationQuit() {
         exit(0)
     }
 }
