@@ -13,7 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var enabledEditKeysValues: [String] = []
     private var editKeysState: EditHotKeys = []
-    
+    private var modifiersPressed = false
+
     private struct Constants {
         // Launcher application bundle identifier
         static let helperBundleID = "com.triton.layoutswitcherlauncher"
@@ -156,9 +157,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Enable key event monitor
         langEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
-            if (event.modifierFlags.contains(.shift) &&
-                event.modifierFlags.contains(secondModifierFlag)) {
-                    self.sendDefaultChangeLayoutHotkey()
+            let areModifiersActive = event.modifierFlags.contains(.shift) && event.modifierFlags.contains(secondModifierFlag)
+            if areModifiersActive {
+                // set Flag when required modifier keys pressed
+                self.modifiersPressed = true
+            } else if self.modifiersPressed {
+                // if required modifier keys pressed and Flag is set
+                // run change layout routine (keys released)
+                self.sendDefaultChangeLayoutHotkey()
+                // reset Flag
+                self.modifiersPressed = false
             }
         }
     }
@@ -170,10 +178,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Enable key event monitor
         editEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
-            
+            // reset Flag when any key is pressed to prevent unwanted layout switch
+            // e.g. when user selects a text with [shift + option + arrow keys] combination
+            self.modifiersPressed = false
+            let char = event.charactersIgnoringModifiers
+            let charCode = event.keyCode
             if (event.modifierFlags.contains(.control)){
-                let char = event.charactersIgnoringModifiers
-                let charCode = event.keyCode;
+                
                 if(self.enabledEditKeysValues.contains(char ?? "/")){
                     self.sendDefaultEditHotkey(char ?? "/", code:charCode)
                 }
