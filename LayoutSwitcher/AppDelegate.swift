@@ -178,10 +178,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Enable key event monitor
         editEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { event in
-            
+            // reset Flag when any key is pressed to prevent unwanted layout switch
+            // e.g. when user selects a text with [shift + option + arrow keys] combination
+            self.modifiersPressed = false
+            let char = event.charactersIgnoringModifiers
+            let charCode = event.keyCode
             if (event.modifierFlags.contains(.control)){
-                let char = event.charactersIgnoringModifiers
-                let charCode = event.keyCode;
+                
                 if(self.enabledEditKeysValues.contains(char ?? "/")){
                     self.sendDefaultEditHotkey(char ?? "/", code:charCode)
                 }
