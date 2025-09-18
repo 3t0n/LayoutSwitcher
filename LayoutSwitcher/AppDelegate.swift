@@ -13,7 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var enabledEditKeysValues: [String] = []
     private var editKeysState: EditHotKeys = []
-    
+    private var modifiersPressed = false
+
     private struct Constants {
         // Launcher application bundle identifier
         static let helperBundleID = "com.triton.layoutswitcherlauncher"
@@ -156,9 +157,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Enable key event monitor
         langEventMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { event in
-            if (event.modifierFlags.contains(.shift) &&
-                event.modifierFlags.contains(secondModifierFlag)) {
-                    self.sendDefaultChangeLayoutHotkey()
+            let areModifiersActive = event.modifierFlags.contains(.shift) && event.modifierFlags.contains(secondModifierFlag)
+            if areModifiersActive {
+                // set Flag when required modifier keys pressed
+                self.modifiersPressed = true
+            } else if self.modifiersPressed {
+                // if required modifier keys pressed and Flag is set
+                // run change layout routine (keys released)
+                self.sendDefaultChangeLayoutHotkey()
+                // reset Flag
+                self.modifiersPressed = false
             }
         }
     }
